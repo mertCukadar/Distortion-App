@@ -51,13 +51,19 @@ class imgFun:
     def BW_image(img,x,y):
         shape = np.shape(img)
         blank_img = np.zeros(shape)
-        try:
-            for i in range(len(x)):
-                for j in range(len(y)):
-                    array = img[x[i,0]:x[i,1] , y[j,0] : y[j,1]]
-                    blank_img[x[i,0]:x[i,1] , y[j,0] : y[j,1]] = imgFun.thresholer(array)
-        except:
-            error = "there is a problem"
+        for i in range(len(x)):
+            for j in range(len(y)):
+                array = img[x[i][0] : x[i][1] , y[j][0] : y[j][1]]
+                blank_img[x[i][0] : x[i][1] , y[j][0] : y[j][1]] = imgFun.thresholer(array)
         return blank_img
         
+
+    def Harris_corner(BW):
+        blankimg = np.zeros(np.shape(BW))
+        img = np.float32(BW)
+        dst = cv2.cornerHarris(img,4,7,0.07)
+        dst = cv2.dilate(dst,None)
+        blankimg[dst>0.03*dst.max()] = 255
+        return  blankimg
+
 
