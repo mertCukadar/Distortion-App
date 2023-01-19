@@ -39,7 +39,7 @@ class imgFun:
             value += int(gcd)
 
         while value2 < shape[1]+1:
-            y.append(value)
+            y.append(value2)
             value2 += int(gcd)
 
         N = 2
