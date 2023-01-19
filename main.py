@@ -15,4 +15,4 @@ print(f"x list: {x} \n ------------- \ny list:{y}")
 BW_img = imgFun.BW_image(img , x , y)
 plt.imshow(BW_img)
 plt.show()
-a = 14
+c = 16
