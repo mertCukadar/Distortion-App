@@ -16,3 +16,4 @@ BW_img = imgFun.BW_image(img , x , y)
 plt.imshow(BW_img)
 plt.show()
 isChanged = True
+isChanged = False
