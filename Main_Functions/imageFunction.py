@@ -66,4 +66,48 @@ class imgFun:
         blankimg[dst>0.03*dst.max()] = 255
         return  blankimg
 
+    def filter_local(dst):
+        shape = np.shape(dst)
+        l1 = [] #filter black parts of image
+        l2 = []
+        index = 1
+
+
+        for i in range(shape[0]):
+             for j in range(shape[1]):
+                control = (dst[i,j] > 200)
+                if control == True:
+                   l1.append([i,j])
+
+        for i in l1:
+      
+            if  index == len(l1):
+                break
+    
+    
+            distance = np.sqrt((i[0] - l1[index][0])**2 + (i[1] - l1[index][1])**2)
+            index += 1 
+            #print(distance)
+            if distance > 30:
+                l2.append(i)
+            else:
+                continue
+  
+        l3 = []
+        l3.append([l2[0]])
+        for i in range(len(l2)):
+            distance = l2[i][0] -l3[-1][0][0] 
+            if distance == 0: 
+                l3.append([l2[i]])
+            if distance > 10:
+                l3.append([l2[i]])
+        
+        blank_img = np.zeros(np.shape(dst))
+        np.shape(blank_img)
+
+        for i in l3:
+            print(i[0])
+            blank_img[i[0][0],i[0][1]] = 200
+
+        return l3 , blank_img 
 

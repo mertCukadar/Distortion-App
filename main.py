@@ -21,11 +21,18 @@ print(f"x list: {x} \n ------------- \ny list:{y}")
 
 BW_img = imgFun.BW_image(img , x , y)
 
-plt.imshow(BW_img)
-plt.show()
+# plt.imshow(BW_img)
+# plt.show()
 
 dst = imgFun.Harris_corner(BW_img)
 
-plt.imshow(dst)
+
+#use dst array for next function without converting.
+
+
+# plt.imshow(dst)
+# plt.show()
+cv2.imwrite("BW.png" , dst)
+area_point , local_center_view = imgFun.filter_local(dst)
+plt.imshow(local_center_view)
 plt.show()
-cv2.imwrite("BW.png" , img)
