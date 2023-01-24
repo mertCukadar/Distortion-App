@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 from Files.Files import Files
 
 
@@ -99,7 +100,7 @@ class imgFun:
             distance = l2[i][0] -l3[-1][0][0] 
             if distance == 0: 
                 l3.append([l2[i]])
-            if distance > 10:
+            if distance > 12:
                 l3.append([l2[i]])
         
         blank_img = np.zeros(np.shape(dst))
@@ -111,3 +112,71 @@ class imgFun:
 
         return l3 , blank_img 
 
+    def exact_dot(dst , original_img ,l3):
+        blank_dot = np.zeros(np.shape(dst))
+        counter = 0
+        for i in l3:
+            rangex_min = i[0][0] - 20
+            rangex_max = i[0][0] + 20
+            
+            rangey_min = i[0][1] - 20
+            rangey_max = i[0][1] + 20
+                
+            region = original_img[rangex_min : rangex_max , rangey_min : rangey_max]
+            
+            #local area black and white convertion
+            
+            region_black_filter = (region > region.mean()) #THİS SECTİON WHİLL BE AOUTOMATİZE WİTH AVARAGE ARRAY "I" VALUE
+            region_white_filter = (region < region.mean())
+            
+            
+            region[region_black_filter] = 255
+            region[region_white_filter] = 0
+            
+            
+            ##--------------------------------------------------------------
+            x_coord = []
+            for i in range(40):
+            
+                #print(f"count of non zero values: {np.mean(np.argwhere(region[i,:] == 0))}")
+                x_coord.append(np.mean(np.argwhere(region[i,:] == 0)))
+            
+                if np.count_nonzero(region[i,:]) < 25:
+                    break
+
+            x_index = np.floor(np.mean(x_coord))
+            
+            
+            
+            y_coord = []
+
+            for j in range(40):
+            
+                #print(f"count of non zero values: {np.mean(np.argwhere(region[i,:] == 0))}")
+                try:
+                    y_coord.append(np.mean(np.argwhere(region[:,j] == 0)))
+                except IndexError:
+                    continue
+                if np.count_nonzero(region[:,j]) < 25:
+                    break
+
+            y_index = np.floor(np.mean(y_coord))
+            
+            ##--------------------------------------------------------------
+            if (int == type(x_index)):
+                continue
+            else:
+                try:
+                    print(f"x : {x_index} y: {y_index}")
+                    #implament blank dot
+                    blank_dot[rangex_min : rangex_max , rangey_min : rangey_max][ int(x_index) ,int(y_index)] = 255
+                    region[int(y_index) , int(x_index)] = 130
+                except ValueError:
+                    continue
+            
+            counter +=1
+            # plt.imshow(region)
+            # plt.title(counter)
+            # plt.show()
+            
+        return blank_dot 

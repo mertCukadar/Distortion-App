@@ -36,3 +36,10 @@ cv2.imwrite("BW.png" , dst)
 area_point , local_center_view = imgFun.filter_local(dst)
 plt.imshow(local_center_view)
 plt.show()
+
+
+blank_dot = imgFun.exact_dot(dst , img ,area_point )
+
+cv2.imwrite("exact_dot.png" , blank_dot)
+plt.imshow(blank_dot)
+plt.show()
